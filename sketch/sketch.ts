@@ -3,12 +3,12 @@ function setup() {
     const l = min(windowHeight, windowWidth)
     createCanvas(l, l);
     noLoop();
-    maze = createMaze(8);
+    maze = createMaze(5);
 }
 
 function draw() {
     background("beige");
-    drawMaze(maze, 20)
+    drawMaze(maze, 80)
 }
 
 
