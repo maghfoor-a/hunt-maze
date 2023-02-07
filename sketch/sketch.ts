@@ -4,6 +4,7 @@ function setup() {
     createCanvas(l, l);
     noLoop();
     maze = createMaze(5);
+    console.log(maze)
 }
 
 function draw() {
