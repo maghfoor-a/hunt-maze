@@ -40,9 +40,10 @@ function createMaze(cellsPerSide: number): Maze {
 }
 
 function drawMaze(maze: Maze, cellSize: number) {
-  stroke("orange");
+  translate(100, 100);
+  stroke("red");
   rect(0, 0, cellSize * maze.cellsPerSide, cellSize * maze.cellsPerSide);
-  drawGridlines(maze, cellSize);
+  // drawGridlines(maze, cellSize);
   for (let gridX = 0; gridX < maze.cellsPerSide; gridX++) {
     for (let gridY = 0; gridY < maze.cellsPerSide; gridY++) {
       drawCell(gridX, gridY, cellSize);
@@ -69,19 +70,61 @@ function getCell(gridX: number, gridY: number, maze: Maze): Cell | null {
   return correctCell[0];
 }
 function drawCell(gridX: number, gridY: number, cellSize: number) {
+  const currentCell = getCell(gridX, gridY, maze);
+  const cellWalls = currentCell.walls;
   push();
   translate(
     gridX * cellSize + cellSize * 0.5,
     gridY * cellSize + cellSize * 0.5
   );
-  fill("red");
-  rectMode(CENTER);
-  square(0, 0, cellSize);
-  fill("black");
-  textSize(cellSize * 0.3);
+  // fill("red");
+  // rectMode(CENTER);
+  // square(0, 0, cellSize);
+  stroke("orange");
+  textSize(cellSize * 0.1);
   textAlign(CENTER, CENTER);
-  text(getCell(gridX, gridY, maze).id, 0, 0);
-  fill("white");
-  circle(0, 0, 5);
+  text(currentCell.id, 0, 0);
+  const aliveWalls = Object.entries(cellWalls)
+    .filter(([key, value]) => value === true)
+    .map(([key, value]) => key)
+    .join(" ");
+  text(aliveWalls, 0, cellSize * 0.2);
+  strokeWeight(6);
+  //drawing north wall
+  if (cellWalls.n) {
+    line(
+      0 - cellSize * 0.5,
+      0 - cellSize * 0.5,
+      0 + cellSize * 0.5,
+      0 - cellSize * 0.5
+    );
+  }
+  //drawing east wall
+  if (cellWalls.e) {
+    line(
+      0 + cellSize * 0.5,
+      0 - cellSize * 0.5,
+      0 + cellSize * 0.5,
+      0 + cellSize * 0.5
+    );
+  }
+  //drawing west wall
+  if (cellWalls.w) {
+    line(
+      0 - cellSize * 0.5,
+      0 - cellSize * 0.5,
+      0 - cellSize * 0.5,
+      0 + cellSize * 0.5
+    );
+  }
+  //drawing south wall
+  if (cellWalls.w) {
+    line(
+      0 - cellSize * 0.5,
+      0 + cellSize * 0.5,
+      0 + cellSize * 0.5,
+      0 + cellSize * 0.5
+    );
+  }
   pop();
 }
