@@ -64,7 +64,9 @@ function drawGridlines(maze: Maze, cellSize: number) {
   }
 }
 function getCell(gridX: number, gridY: number, maze: Maze): Cell | null {
-  return random(maze.cells);
+  const requiredCellID = 5 * gridY + (gridX + 1);
+  const correctCell = maze.cells.filter((cell) => cell.id === requiredCellID);
+  return correctCell[0];
 }
 function drawCell(gridX: number, gridY: number, cellSize: number) {
   push();
